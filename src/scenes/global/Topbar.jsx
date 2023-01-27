@@ -8,14 +8,24 @@ import NotificationsOutlinedIcon from "@mui/icons-material/NotificationsOutlined
 import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
 import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
 import SearchIcon from "@mui/icons-material/Search";
+import ExitToAppIcon from '@mui/icons-material/ExitToApp';
+import { Navigate, useNavigate } from "react-router-dom";
 
-const Topbar = () => {
+const Topbar = (props) => {
+  const { setAuth } = props
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const colorMode = useContext(ColorModeContext);
+  const navigate = useNavigate();
+
+  const logOut = () => {
+    setAuth({})
+    localStorage.removeItem('auth');
+    navigate('/')
+  }
 
   return (
-    <Box display="flex" justifyContent="space-between" p={2}>
+    <Box display="flex" justifyContent="space-between" p={2} sx={{'@media print': { display : 'none'}}}>
       {/* SEARCH BAR */}
       <Box
         display="flex"
@@ -43,8 +53,8 @@ const Topbar = () => {
         <IconButton>
           <SettingsOutlinedIcon />
         </IconButton>
-        <IconButton>
-          <PersonOutlinedIcon />
+        <IconButton onClick={() => logOut()}>
+          <ExitToAppIcon />
         </IconButton>
       </Box>
     </Box>
